@@ -47,7 +47,6 @@ def start_handler(message):
     )
 
 
-# Media yuklash funksiyasi
 def download_media(url, audio=False):
     if audio:
         ydl_opts = {
@@ -79,14 +78,12 @@ def download_media(url, audio=False):
         return file_path, info.get("title", "media")
 
 
-# Link yuborilganda ishlaydi
 @bot.message_handler(func=lambda message: True)
 def handle_message(message):
     url = message.text.strip()
 
     if any(x in url for x in ["youtube.com", "youtu.be", "tiktok.com", "instagram.com"]):
         try:
-            # Agar cache da bo‘lsa
             if url in cache and os.path.exists(cache[url]["video"]):
                 with open(cache[url]["video"], "rb") as f:
                     bot.send_video(message.chat.id, f, caption=cache[url]["title"])
@@ -106,7 +103,6 @@ def handle_message(message):
 
                 bot.delete_message(message.chat.id, status_msg.message_id)
 
-            # Inline tugma
             markup = types.InlineKeyboardMarkup()
             btn = types.InlineKeyboardButton("🎵 Audioni yuklab ber", callback_data=f"audio|{url}")
             markup.add(btn)
@@ -118,7 +114,6 @@ def handle_message(message):
         bot.reply_to(message, "⚠️ Faqat YouTube, TikTok yoki Instagram link yuboring.")
 
 
-# Tugma bosilganda audio yuklash
 @bot.callback_query_handler(func=lambda call: call.data.startswith("audio|"))
 def handle_audio(call):
     url = call.data.split("|")[1]
