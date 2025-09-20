@@ -1,0 +1,13 @@
+# Virtual environment
+venv/
+
+# OS files
+*.log
+*.ini
+*.DS_Store
+Thumbs.db
+
+# Windows system folders
+AppData/
+Cookies/
+Local Settings/
